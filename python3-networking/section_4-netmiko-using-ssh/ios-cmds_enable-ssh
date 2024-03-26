@@ -1,0 +1,12 @@
+enable
+conf t
+username lab pass cisco
+username lab priv 15
+line vty 0 4
+login local
+transport input all
+ip domain-name lab.local
+crypto key generate rsa
+1024
+end
+wr
