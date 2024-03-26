@@ -3,3 +3,7 @@ Udemy: Python Network Programming for Network Engineers (Python 3)
 https://www.udemy.com/course/python-network-programming-for-network-engineers-python-3
 
 ## Section 5: NAPALM
+- Install NAPALM
+- NAPALM connect to switch
+- JSON and more commands
+- MAC address table, ARP cache
