@@ -26,7 +26,6 @@ for ip_address in devicelist:
         print(diffs)
         iosv.commit_config()
     else:
-    	print('No OSPF changes required.')
-    	iosv.discard_config()
-
+        print('No OSPF changes required.')
+    iosv.discard_config()
     iosv.close()
