@@ -10,7 +10,7 @@ for ip_address in devicelist:
     driver = get_network_driver('ios')
     iosv = driver(ip_address, 'lab', 'cisco')
     iosv.open()
-    iosv.load_merge_candidate(filename='ACL1.cfg')
+    iosv.load_merge_candidate(filename='acl.cfg')
     diffs = iosv.compare_config()
     if len(diffs) > 0:
         print(diffs)
