@@ -11,6 +11,7 @@ diffs = iosvl2.compare_config()
 if len(diffs) > 0:
     print(diffs)
     iosvl2.commit_config()
+    print('Changes committed.')
 else:
     print('No changes required.')
     iosvl2.discard_config()

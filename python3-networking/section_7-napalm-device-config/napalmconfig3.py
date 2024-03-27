@@ -11,6 +11,7 @@ diffs = iosvl2.compare_config()
 if len(diffs) > 0:
     print(diffs)
     iosvl2.commit_config()
+    print('ACL changes committed.')
 else:
     print('No ACL changes required.')
     iosvl2.discard_config()
@@ -21,6 +22,7 @@ diffs = iosvl2.compare_config()
 if len(diffs) > 0:
     print(diffs)
     iosvl2.commit_config()
+    print('OSPF changes committed.')
 else:
     print('No OSPF changes required.')
     iosvl2.discard_config()

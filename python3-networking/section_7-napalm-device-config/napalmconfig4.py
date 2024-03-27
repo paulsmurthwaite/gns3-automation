@@ -2,7 +2,7 @@ import json
 from napalm import get_network_driver
 
 devicelist = ['192.168.122.72',
-           '192.168.122.73'
+           '192.168.122.71'
            ]
 
 for ip_address in devicelist:
@@ -15,6 +15,7 @@ for ip_address in devicelist:
     if len(diffs) > 0:
         print(diffs)
         iosv.commit_config()
+        print('ACL changes committed.')
     else:
         print('No ACL changes required.')
         iosv.discard_config()
@@ -25,6 +26,7 @@ for ip_address in devicelist:
     if len(diffs) > 0:
         print(diffs)
         iosv.commit_config()
+        print('OSPF changes committed.')
     else:
         print('No OSPF changes required.')
     iosv.discard_config()
