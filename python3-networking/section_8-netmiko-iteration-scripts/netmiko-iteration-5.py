@@ -1,45 +1,57 @@
-from getpass import getpass
-from netmiko import ConnectHandler
-from netmiko.ssh_exception import NetMikoTimeoutException
-from paramiko.ssh_exception import SSHException
-from netmiko.ssh_exception import AuthenticationException
+"""
+Author: Paul Smurthwaite
+Purpose: Prompt for credentials.  Connect to devices specified in devices_file.  Apply commands specified in commands_list.
+"""
 
-username = input('Enter your SSH username: ')
+
+from getpass import getpass
+from netmiko import ConnectHandler, NetmikoTimeoutException 
+from netmiko.exceptions import NetmikoAuthenticationException
+from paramiko.ssh_exception import SSHException
+
+
+# Prompt for credentials
+username = input('SSH username: ')
 password = getpass()
 
+# Open devices file, split lines, read to variable
 with open('commands_file') as f:
     commands_list = f.read().splitlines()
 
+# Open devices file, split lines, read to variable
 with open('devices_file') as f:
     devices_list = f.read().splitlines()
 
-for devices in devices_list:
-    print ('Connecting to device" ' + devices)
-    ip_address_of_device = devices
+# Iterate over each device, using specified credentials
+# passed from vars
+for device in devices_list:
+    print ('Connecting to device: ' + device)
     ios_device = {
         'device_type': 'cisco_ios',
-        'ip': ip_address_of_device, 
+        'ip': device, 
         'username': username,
         'password': password
     }
 
+    # Error Handling
     try:
         net_connect = ConnectHandler(**ios_device)
-    except (AuthenticationException):
-        print ('Authentication failure: ' + ip_address_of_device)
+    except (NetmikoAuthenticationException):
+        print ('Authentication failure: ' + device)
         continue
-    except (NetMikoTimeoutException):
-        print ('Timeout to device: ' + ip_address_of_device)
-        continue
-    except (EOFError):
-        print ('End of file while attempting device ' + ip_address_of_device)
+    except (NetmikoTimeoutException):
+        print ('Timeout to device: ' + device)
         continue
     except (SSHException):
-        print ('SSH Issue. Are you sure SSH is enabled? ' + ip_address_of_device)
+        print ('SSH is not enabled for device: ' + device)
+        continue
+    except (EOFError):
+        print ('End of file while attempting device ' + device)
         continue
     except Exception as unknown_error:
         print ('Some other error: ' + str(unknown_error))
         continue
 
+    # Open connection, send commands, print output
     output = net_connect.send_config_set(commands_list)
     print (output)
